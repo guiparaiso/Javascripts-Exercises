@@ -342,11 +342,17 @@ async function caça_ao_tesouro(token, exercices) {
           "Accept": "application/json",
           "Authorization": `Bearer ${token}`
       }}
-  let answer = 0
-  entrada = exercices['caca-ao-tesouro']['entrada'];
-  console.log(entrada)
+  entrada = exercices['caca-ao-tesouro']['entrada']['inicio'];
+  while (true){
+    await axios.get(entrada,config)
+    .then((response) => {entrada = response.data});
+    // console.log("a resposta é: ",entrada)
+    if (!isNaN(entrada)){
+      break
+    }
+  }
   return axios
-  .post('https://tecweb-js.insper-comp.com.br/exercicio/caca-ao-tesouro',{'resposta':answer}, config)
+  .post('https://tecweb-js.insper-comp.com.br/exercicio/caca-ao-tesouro',{'resposta':entrada}, config)
   .then((response) => console.log(response.data));
 } 
 async function main(){
